@@ -1,0 +1,130 @@
+[
+  {
+    "id": "gangaikonda",
+    "name": "Gangaikonda Cholapuram",
+    "category": "historical",
+    "location": "Jayankondam, Ariyalur District",
+    "description": "Built by Rajendra Chola I in 1035 CE, this magnificent temple celebrates his victory over the Ganges. It's one of the largest Shiva temples in Tamil Nadu and a UNESCO World Heritage Site.",
+    "entry_fee": "₹25 (Indians), ₹300 (Foreigners)",
+    "timing": "6:00 AM - 6:00 PM",
+    "coordinates": {
+      "lat": 11.2083,
+      "lng": 79.4372
+    },
+    "image": "https://picsum.photos/seed/gangaikonda/800/600",
+    "bestTime": "October to March",
+    "duration": "2-3 hours"
+  },
+  {
+    "id": "mahabalipuram",
+    "name": "Mahabalipuram",
+    "category": "historical",
+    "location": "Chengalpattu District",
+    "description": "A UNESCO World Heritage Site, Mahabalipuram is famous for its rock-cut architecture and stone sculptures dating back to the 7th-8th centuries. The Shore Temple and Five Rathas are iconic landmarks.",
+    "entry_fee": "₹40 (Indians), ₹600 (Foreigners)",
+    "timing": "6:00 AM - 6:00 PM",
+    "coordinates": {
+      "lat": 12.6208,
+      "lng": 80.1989
+    },
+    "image": "https://picsum.photos/seed/mahabalipuram/800/600",
+    "bestTime": "November to February",
+    "duration": "4-5 hours"
+  },
+  {
+    "id": "fort-st-george",
+    "name": "Fort St. George",
+    "category": "historical",
+    "location": "Chennai",
+    "description": "Built in 1644 by the British East India Company, this fort is the first English fortress in India. It now houses the Tamil Nadu Legislative Assembly and a museum with colonial artifacts.",
+    "entry_fee": "₹15 (Indians), ₹200 (Foreigners)",
+    "timing": "9:00 AM - 5:00 PM (Closed Fridays)",
+    "coordinates": {
+      "lat": 13.0797,
+      "lng": 80.2886
+    },
+    "image": "https://picsum.photos/seed/fortstgeorge/800/600",
+    "bestTime": "December to February",
+    "duration": "2 hours"
+  },
+  {
+    "id": "pancha-rathas",
+    "name": "Pancha Rathas",
+    "category": "historical",
+    "location": "Mahabalipuram, Chengalpattu District",
+    "description": "Five monolithic rock-cut temples carved from a single granite rock, each named after the Pandavas. Dating to the 7th century, these showcase Dravidian architecture at its finest.",
+    "entry_fee": "₹40 (Indians), ₹600 (Foreigners)",
+    "timing": "6:00 AM - 6:00 PM",
+    "coordinates": {
+      "lat": 12.6172,
+      "lng": 80.1923
+    },
+    "image": "https://picsum.photos/seed/pancharathas/800/600",
+    "bestTime": "November to February",
+    "duration": "1-2 hours"
+  },
+  {
+    "id": "arjunas-penance",
+    "name": "Arjuna's Penance",
+    "category": "historical",
+    "location": "Mahabalipuram, Chengalpattu District",
+    "description": "One of the largest open-air rock reliefs in the world, this 7th-century masterpiece depicts scenes from Hindu mythology. The intricate carvings cover a massive granite rock face.",
+    "entry_fee": "Free",
+    "timing": "24 hours",
+    "coordinates": {
+      "lat": 12.6236,
+      "lng": 80.1981
+    },
+    "image": "https://picsum.photos/seed/arjunaspenance/800/600",
+    "bestTime": "November to February",
+    "duration": "1 hour"
+  },
+  {
+    "id": "meenakshi-temple",
+    "name": "Meenakshi Amman Temple",
+    "category": "spiritual",
+    "location": "Madurai",
+    "description": "A historic Hindu temple dedicated to Goddess Meenakshi and Lord Sundareswarar. Its 14 gopurams with thousands of colorful sculptures make it one of India's most magnificent temples.",
+    "entry_fee": "Free (Special darshan ₹50)",
+    "timing": "5:00 AM - 12:30 PM, 4:00 PM - 9:30 PM",
+    "coordinates": {
+      "lat": 9.9195,
+      "lng": 78.1193
+    },
+    "image": "https://picsum.photos/seed/meenakshi/800/600",
+    "bestTime": "October to March",
+    "duration": "3-4 hours"
+  },
+  {
+    "id": "brihadeeswarar-temple",
+    "name": "Brihadeeswarar Temple",
+    "category": "spiritual",
+    "location": "Thanjavur",
+    "description": "Also known as the 'Big Temple', this UNESCO World Heritage Site was built by Raja Raja Chola I in 1010 CE. Its 216-foot vimana is one of the tallest in the world.",
+    "entry_fee": "Free",
+    "timing": "6:00 AM - 8:30 PM",
+    "coordinates": {
+      "lat": 10.7825,
+      "lng": 79.1313
+    },
+    "image": "https://picsum.photos/seed/brihadeeswarar/800/600",
+    "bestTime": "October to March",
+    "duration": "2-3 hours"
+  },
+  {
+    "id": "ranganathaswamy-temple",
+    "name": "Sri Ranganathaswamy Temple",
+    "category": "spiritual",
+    "location": "Srirangam, Tiruchirappalli",
+    "description": "The largest functioning Hindu temple in the world, dedicated to Lord Ranganatha. It sprawls across 156 acres with 21 towers and 50 shrines.",
+    "entry_fee": "Free (Special darshan available)",
+    "timing": "6:00 AM - 1:00 PM, 3:00 PM - 9:00 PM",
+    "coordinates": {
+      "lat": 10.8626,
+      "lng": 78.6910
+    },
+    "image": "https://picsum.photos/seed/ranganathaswamy/800/600",
+    "bestTime": "December to February",
+    "duration": "3-4 hours"
+  }
+]

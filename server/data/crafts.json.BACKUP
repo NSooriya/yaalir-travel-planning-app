@@ -1,0 +1,57 @@
+[
+  {
+    "id": "kovalam-handicrafts",
+    "name": "Kovalam Village Folks Handicrafts",
+    "category": "crafts",
+    "location": "Kovalam Village, Chennai District",
+    "description": "Traditional Tamil Nadu handicrafts made by local artisans including palm leaf products, shell crafts, and decorative items. These eco-friendly crafts support rural communities.",
+    "specialty": "Palm leaf crafts, shell decorations",
+    "image": "https://picsum.photos/seed/kovalam/800/600",
+    "visitInfo": "Open daily 9:00 AM - 6:00 PM",
+    "priceRange": "₹50 - ₹2000"
+  },
+  {
+    "id": "bhavani-jamakalam",
+    "name": "Bhavani Jamakalam",
+    "category": "crafts",
+    "location": "Bhavani, Erode District",
+    "description": "Famous handwoven carpets and rugs known for their durability and intricate designs. The art has been practiced here for over 400 years.",
+    "specialty": "Handwoven carpets and floor mats",
+    "image": "https://picsum.photos/seed/jamakalam/800/600",
+    "visitInfo": "Weaving centers open 8:00 AM - 5:00 PM",
+    "priceRange": "₹1000 - ₹20000"
+  },
+  {
+    "id": "kanchipuram-silk",
+    "name": "Kanchipuram Silk",
+    "category": "crafts",
+    "location": "Kanchipuram",
+    "description": "World-renowned silk sarees known for their rich texture, vibrant colors, and gold thread work. Kanchipuram silk is a geographical indication product of India.",
+    "specialty": "Pure silk sarees with gold zari work",
+    "image": "https://picsum.photos/seed/kanchipuram/800/600",
+    "visitInfo": "Silk weaving units open 9:00 AM - 7:00 PM",
+    "priceRange": "₹5000 - ₹100000"
+  },
+  {
+    "id": "thanjavur-dolls",
+    "name": "Thanjavur Dolls",
+    "category": "crafts",
+    "location": "Thanjavur",
+    "description": "Traditional bobblehead dolls made of terracotta, known as 'Thanjavur Thalayatti Bommai'. These dolls never fall and always return to standing position.",
+    "specialty": "Self-balancing terracotta dolls",
+    "image": "https://picsum.photos/seed/thanjavurdoll/800/600",
+    "visitInfo": "Artisan workshops open 9:00 AM - 6:00 PM",
+    "priceRange": "₹200 - ₹5000"
+  },
+  {
+    "id": "tirunelveli-halwa",
+    "name": "Tirunelveli Halwa",
+    "category": "crafts",
+    "location": "Tirunelveli",
+    "description": "Famous wheat halwa made with pure ghee, sugar, and cashews. This traditional sweet has been made using the same recipe for over 100 years.",
+    "specialty": "Traditional wheat halwa",
+    "image": "https://picsum.photos/seed/halwa/800/600",
+    "visitInfo": "Shops open 8:00 AM - 9:00 PM",
+    "priceRange": "₹400 - ₹1500 per kg"
+  }
+]

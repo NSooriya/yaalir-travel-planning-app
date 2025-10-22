@@ -1,0 +1,28 @@
+{
+  "name": "tamilnadu-heritage-explorer",
+  "version": "1.0.0",
+  "description": "TamilNadu Heritage Explorer - A hyperlocal travel planning SaaS platform focused on Tamil Nadu's heritage tourism",
+  "main": "index.js",
+  "scripts": {
+    "install-all": "cd server && npm install && cd ../client && npm install",
+    "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
+    "dev:server": "cd server && npm start",
+    "dev:client": "cd client && npm run dev",
+    "build": "cd client && npm run build",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "tamil nadu",
+    "heritage",
+    "tourism",
+    "travel",
+    "react",
+    "express",
+    "jwt"
+  ],
+  "author": "Your Name",
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
