@@ -20,14 +20,20 @@ const Explore = () => {
   const loadData = async () => {
     try {
       const heritageRes = await heritageAPI.getAll();
-      setPlaces(heritageRes.data);
+      // Ensure it's an array
+      const heritageData = Array.isArray(heritageRes.data) ? heritageRes.data : [];
+      setPlaces(heritageData);
 
       if (user) {
         const bookmarksRes = await bookmarksAPI.getAll();
-        setBookmarks(bookmarksRes.data.bookmarks || []);
+        const bookmarksData = bookmarksRes.data?.bookmarks || [];
+        setBookmarks(Array.isArray(bookmarksData) ? bookmarksData : []);
       }
     } catch (error) {
       console.error('Error loading data:', error);
+      // Set empty arrays on error
+      setPlaces([]);
+      setBookmarks([]);
     } finally {
       setLoading(false);
     }
@@ -75,32 +81,32 @@ const Explore = () => {
   }
 
   return (
-    <div className="min-h-screen bg-ivory-500 dark:bg-stone-dark-900 py-12">
+    <div className="min-h-screen bg-ivory-500 dark:bg-stone-dark-900 py-8 md:py-12">
       <div className="container mx-auto px-4">
         {/* Header */}
         <motion.div
           initial={{ y: -20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.5 }}
-          className="text-center mb-12"
+          className="text-center mb-8 md:mb-12"
         >
-          <h1 className="font-display text-4xl md:text-6xl font-bold text-chola-red-900 dark:text-regal-gold-400 mb-4">
+          <h1 className="font-display text-3xl md:text-5xl lg:text-6xl font-bold text-chola-red-900 dark:text-regal-gold-400 mb-3 md:mb-4 px-4">
             {t('explore.title')}
           </h1>
-          <p className="font-body text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+          <p className="font-body text-base md:text-lg lg:text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto px-4">
             Discover the magnificent heritage sites of Tamil Nadu
           </p>
         </motion.div>
 
         {/* Filter Buttons */}
-        <div className="flex flex-wrap justify-center gap-4 mb-12">
+        <div className="flex flex-wrap justify-center gap-2 md:gap-4 mb-8 md:mb-12 px-2">
           {['all', 'historical', 'spiritual'].map((filterType) => (
             <motion.button
               key={filterType}
               onClick={() => setFilter(filterType)}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className={`px-8 py-3 rounded-full font-semibold transition-all duration-300 ${
+              className={`px-4 py-2 md:px-8 md:py-3 rounded-full font-semibold text-sm md:text-base transition-all duration-300 ${
                 filter === filterType
                   ? 'bg-chola-red-700 text-white shadow-lift'
                   : 'bg-white dark:bg-stone-dark-800 text-gray-700 dark:text-gray-300 hover:bg-sandstone-200 dark:hover:bg-stone-dark-700 shadow-soft'
@@ -112,7 +118,7 @@ const Explore = () => {
         </div>
 
         {/* Grid of Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8">
           {getFilteredItems().map((item, index) => (
             <motion.div
               key={item.id}
@@ -130,16 +136,18 @@ const Explore = () => {
                   className="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-                <button
-                  onClick={() => handleBookmark(item.name)}
-                  className="absolute top-4 right-4 bg-white/90 dark:bg-stone-dark-800/90 backdrop-blur-sm p-3 rounded-full shadow-medium hover:scale-110 transition-transform"
-                >
-                  {bookmarks.includes(item.name) ? (
-                    <FaBookmark className="text-regal-gold-500 text-xl" />
-                  ) : (
-                    <FaRegBookmark className="text-gray-600 dark:text-gray-300 text-xl" />
-                  )}
-                </button>
+                {user && (
+                  <button
+                    onClick={() => handleBookmark(item.name)}
+                    className="absolute top-4 right-4 bg-white/90 dark:bg-stone-dark-800/90 backdrop-blur-sm p-3 rounded-full shadow-medium hover:scale-110 transition-transform"
+                  >
+                    {bookmarks.includes(item.name) ? (
+                      <FaBookmark className="text-regal-gold-500 text-xl" />
+                    ) : (
+                      <FaRegBookmark className="text-gray-600 dark:text-gray-300 text-xl" />
+                    )}
+                  </button>
+                )}
               </div>
 
               {/* Content */}

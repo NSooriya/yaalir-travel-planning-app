@@ -130,6 +130,131 @@
           "estimatedTotalCost": 3240,
           "budgetMatch": true
         }
+      },
+      {
+        "id": 1761158018558,
+        "createdAt": "2025-10-22T18:33:38.558Z",
+        "travelers": "3",
+        "duration": "5",
+        "budget": "50000",
+        "itinerary": [
+          {
+            "day": 1,
+            "region": "Chennai Arrival",
+            "places": [
+              {
+                "name": "Fort St. George",
+                "location": "Chennai",
+                "category": "historical",
+                "duration": "2 hours",
+                "entry_fee": "₹15 (Indians), ₹200 (Foreigners)",
+                "image": "/images/Fort St. George.jpg"
+              },
+              {
+                "name": "San Thome Basilica",
+                "location": "Chennai",
+                "category": "spiritual",
+                "duration": "1 hour",
+                "entry_fee": "Free",
+                "image": "/images/San Thome Basilica.jpg"
+              }
+            ],
+            "estimatedCost": 7500
+          },
+          {
+            "day": 2,
+            "region": "Mahabalipuram",
+            "places": [
+              {
+                "name": "Mahabalipuram Group of Monuments",
+                "location": "Chengalpattu District",
+                "category": "historical",
+                "duration": "Full day",
+                "entry_fee": "₹40 (Indians), ₹600 (Foreigners)",
+                "image": "/images/Mahabalipuram Group of Monuments.jpg"
+              },
+              {
+                "name": "Pancha Rathas",
+                "location": "Mahabalipuram, Chengalpattu District",
+                "category": "historical",
+                "duration": "1-2 hours",
+                "entry_fee": "Included in Mahabalipuram ticket",
+                "image": "/images/Pancha Rathas.webp"
+              }
+            ],
+            "estimatedCost": 9000
+          },
+          {
+            "day": 3,
+            "region": "Travel to Thanjavur (340km)",
+            "places": [
+              {
+                "name": "Gangaikonda Cholapuram",
+                "location": "Jayankondam, Ariyalur District",
+                "category": "historical",
+                "duration": "2-3 hours",
+                "entry_fee": "Free",
+                "image": "/images/Gangaikondacholapuram_Temple_4.webp"
+              }
+            ],
+            "estimatedCost": 10500
+          },
+          {
+            "day": 4,
+            "region": "Thanjavur",
+            "places": [
+              {
+                "name": "Brihadeeswara Temple",
+                "location": "Thanjavur",
+                "category": "spiritual",
+                "duration": "2 hours",
+                "entry_fee": "Free",
+                "image": "/images/Brihadeeswara Temple.webp"
+              },
+              {
+                "name": "Thanjavur Maratha Palace",
+                "location": "Thanjavur",
+                "category": "historical",
+                "duration": "2-3 hours",
+                "entry_fee": "₹50 (Indians), ₹100 (Foreigners)",
+                "image": "/images/Thanjavur Maratha Palace.jpg"
+              },
+              {
+                "name": "Thanjavur Paintings",
+                "location": "Thanjavur",
+                "category": "crafts",
+                "duration": "2-3 hours",
+                "entry_fee": "₹2,000 - ₹50,000",
+                "image": "/images/Thanjavur Paintings.jpg"
+              }
+            ],
+            "estimatedCost": 8400
+          },
+          {
+            "day": 5,
+            "region": "Return Journey",
+            "places": [
+              {
+                "name": "Swamimalai Bronze Sculptures",
+                "location": "Swamimalai, Thanjavur",
+                "category": "crafts",
+                "duration": "2-3 hours",
+                "entry_fee": "₹10,000 - ₹5,00,000",
+                "image": "/images/Swamimalai Bronze Sculptures.avif"
+              }
+            ],
+            "estimatedCost": 6000
+          }
+        ],
+        "summary": {
+          "travelers": "3",
+          "duration": 5,
+          "packageName": "Temple Circuit Package",
+          "description": "Chennai to Thanjavur temple trail - Southern heritage highlights",
+          "totalPlaces": 9,
+          "estimatedTotalCost": 41400,
+          "budgetMatch": true
+        }
       }
     ]
   },
@@ -381,5 +506,13 @@
         }
       }
     ]
+  },
+  {
+    "id": 4,
+    "name": "sooriya",
+    "email": "sooriya@gmail.com",
+    "passwordHash": "$2a$10$h5U0aKB193thN.GlZrei/eDrdMlQlgG/VwFjZYMcnWfdPV5gwBIu2",
+    "bookmarks": [],
+    "itineraries": []
   }
 ]

@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
-import { FaUsers, FaCalendarAlt, FaMoneyBillWave, FaSave } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
+import { FaUsers, FaCalendarAlt, FaMoneyBillWave, FaSave, FaLock } from 'react-icons/fa';
 import { itineraryAPI } from '../api';
 import { useAuth } from '../context/AuthContext';
 
@@ -55,7 +56,7 @@ const ItineraryBuilder = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-12">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-12 relative">
       <div className="container mx-auto px-4 max-w-6xl">
         {/* Header */}
         <motion.div
@@ -72,7 +73,45 @@ const ItineraryBuilder = () => {
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        {/* Blurred Content for Non-Logged-In Users */}
+        {!user && (
+          <div className="absolute inset-0 z-20 flex items-center justify-center bg-black/60 dark:bg-black/80 backdrop-blur-md">
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ duration: 0.5 }}
+              className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl p-8 md:p-12 max-w-md mx-4 text-center border-2 border-[#7A1C1C] dark:border-[#D4AF37]"
+            >
+              <div className="w-20 h-20 mx-auto mb-6 bg-gradient-to-br from-[#7A1C1C] to-[#5A1515] dark:from-[#D4AF37] dark:to-[#B8941F] rounded-full flex items-center justify-center shadow-lg">
+                <FaLock className="text-4xl text-white dark:text-gray-900" />
+              </div>
+              <h2 className="text-2xl md:text-3xl font-bold text-[#7A1C1C] dark:text-[#D4AF37] mb-4">
+                Login Required
+              </h2>
+              <p className="text-gray-700 dark:text-gray-200 mb-6 text-lg leading-relaxed">
+                Please log in to create personalized travel plans and save your itineraries.
+              </p>
+              <div className="space-y-3">
+                <Link
+                  to="/login"
+                  className="block w-full bg-gradient-to-r from-[#7A1C1C] to-[#5A1515] dark:from-[#D4AF37] dark:to-[#B8941F] text-white dark:text-gray-900 px-6 py-3 rounded-lg font-semibold hover:shadow-xl transform hover:scale-105 transition-all"
+                >
+                  Login to Continue
+                </Link>
+                <Link
+                  to="/register"
+                  className="block w-full border-2 border-[#7A1C1C] dark:border-[#D4AF37] text-[#7A1C1C] dark:text-[#D4AF37] px-6 py-3 rounded-lg font-semibold hover:bg-[#7A1C1C]/10 dark:hover:bg-[#D4AF37]/10 transition-all"
+                >
+                  Create Account
+                </Link>
+              </div>
+            </motion.div>
+          </div>
+        )}
+
+        {/* Main Content - Blurred when not logged in */}
+        <div className={!user ? 'filter blur-lg pointer-events-none select-none' : ''}>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Form */}
           <motion.div
             initial={{ x: -50, opacity: 0 }}
@@ -195,7 +234,7 @@ const ItineraryBuilder = () => {
 
                 {/* Day-wise Itinerary */}
                 <div className="space-y-4 max-h-96 overflow-y-auto">
-                  {itinerary.itinerary.map((day) => (
+                  {Array.isArray(itinerary.itinerary) && itinerary.itinerary.map((day) => (
                     <div key={day.day} className="border-l-4 border-tn-maroon-600 dark:border-tn-gold-400 pl-4">
                       <h4 className="font-bold text-lg text-tn-maroon-700 dark:text-tn-gold-400 mb-1">
                         {t('itinerary.day')} {day.day} - {day.region}
@@ -206,7 +245,7 @@ const ItineraryBuilder = () => {
                         </p>
                       )}
                       <div className="space-y-2">
-                        {day.places.map((place, index) => (
+                        {Array.isArray(day.places) && day.places.map((place, index) => (
                           <div key={index} className="text-gray-700 dark:text-gray-300">
                             <p className="font-semibold">{place.name}</p>
                             <p className="text-sm text-gray-600 dark:text-gray-400">
@@ -215,7 +254,7 @@ const ItineraryBuilder = () => {
                           </div>
                         ))}
                         <p className="text-sm font-semibold text-tn-maroon-600 dark:text-tn-gold-400">
-                          Day Cost: ₹{day.estimatedCost.toLocaleString()}
+                          Day Cost: ₹{day.estimatedCost?.toLocaleString() || 0}
                         </p>
                       </div>
                     </div>
@@ -246,6 +285,7 @@ const ItineraryBuilder = () => {
               </div>
             )}
           </motion.div>
+        </div>
         </div>
       </div>
     </div>

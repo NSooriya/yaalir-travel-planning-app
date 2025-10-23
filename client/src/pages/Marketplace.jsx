@@ -16,9 +16,13 @@ const Marketplace = () => {
   const loadProducts = async () => {
     try {
       const response = await heritageAPI.getCrafts();
-      setProducts(response.data);
+      // Ensure it's an array
+      const productsData = Array.isArray(response.data) ? response.data : [];
+      setProducts(productsData);
     } catch (error) {
       console.error('Error loading products:', error);
+      // Set empty array on error
+      setProducts([]);
     } finally {
       setLoading(false);
     }

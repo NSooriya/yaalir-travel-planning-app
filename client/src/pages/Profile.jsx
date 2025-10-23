@@ -54,22 +54,40 @@ const Profile = () => {
     const margin = 20;
     let yPos = margin;
 
+    // Helper to clean special characters
+    const cleanText = (text) => {
+      return text
+        .replace(/[🙏💰✅🗺️🕉️🏛️]/g, '')
+        .replace(/•/g, '-')
+        .replace(/₹/g, 'Rs. ')
+        .trim();
+    };
+
     // Header with branding
     doc.setFillColor(122, 28, 28); // Chola Red
     doc.rect(0, 0, pageWidth, 45, 'F');
     
+    // Add logo to PDF header
+    try {
+      const logoImg = new Image();
+      logoImg.src = '/logo.png';
+      doc.addImage(logoImg, 'PNG', margin, 8, 30, 30);
+    } catch (error) {
+      console.log('Logo not loaded in PDF');
+    }
+    
     doc.setTextColor(255, 255, 255);
     doc.setFontSize(28);
     doc.setFont('helvetica', 'bold');
-    doc.text('Yaalir', margin, 22);
+    doc.text('Yaalir', margin + 35, 22);
     
     doc.setFontSize(11);
     doc.setFont('helvetica', 'normal');
-    doc.text('Tamil Nadu Heritage Explorer', margin, 32);
+    doc.text('Tamil Nadu Heritage Explorer', margin + 35, 32);
     
     doc.setFontSize(9);
     doc.setFont('helvetica', 'italic');
-    doc.text('Your Journey Through Time, Art, and Heritage', margin, 39);
+    doc.text('Your Journey Through Time, Art, and Heritage', margin + 35, 39);
 
     yPos = 60;
 
@@ -77,26 +95,28 @@ const Profile = () => {
     doc.setTextColor(122, 28, 28);
     doc.setFontSize(22);
     doc.setFont('helvetica', 'bold');
-    const title = itinerary.summary?.packageName || `${itinerary.duration || 'Custom'} Day Tamil Nadu Tour`;
+    const title = cleanText(itinerary.title || itinerary.summary?.packageName || `${itinerary.duration || 'Custom'} Day Tamil Nadu Tour`);
     const titleLines = doc.splitTextToSize(title, pageWidth - 2 * margin);
     doc.text(titleLines, margin, yPos);
     yPos += titleLines.length * 8 + 5;
 
     // Package Description
-    if (itinerary.summary?.description) {
+    const description = itinerary.description || itinerary.summary?.description;
+    if (description) {
       doc.setFontSize(10);
       doc.setFont('helvetica', 'italic');
       doc.setTextColor(80, 80, 80);
-      const splitDesc = doc.splitTextToSize(itinerary.summary.description, pageWidth - 2 * margin);
+      const cleanDesc = cleanText(description);
+      const splitDesc = doc.splitTextToSize(cleanDesc, pageWidth - 2 * margin);
       doc.text(splitDesc, margin, yPos);
       yPos += splitDesc.length * 5 + 8;
     } else {
       yPos += 3;
     }
 
-    // Trip Summary Box with better alignment
-    doc.setFillColor(255, 248, 240); // Light ivory background
-    doc.setDrawColor(212, 175, 55); // Regal Gold border
+    // Trip Summary Box
+    doc.setFillColor(255, 248, 240);
+    doc.setDrawColor(212, 175, 55);
     doc.setLineWidth(1);
     doc.roundedRect(margin, yPos, pageWidth - 2 * margin, 40, 3, 3, 'FD');
     
@@ -114,10 +134,12 @@ const Profile = () => {
     const col2X = pageWidth / 2 + 5;
     
     // Left column
-    doc.setFont('helvetica', 'bold');
-    doc.text('Travelers:', col1X, summaryY);
-    doc.setFont('helvetica', 'normal');
-    doc.text(String(itinerary.travelers || 'N/A'), col1X + 25, summaryY);
+    if (itinerary.travelers) {
+      doc.setFont('helvetica', 'bold');
+      doc.text('Travelers:', col1X, summaryY);
+      doc.setFont('helvetica', 'normal');
+      doc.text(String(itinerary.travelers), col1X + 25, summaryY);
+    }
     
     doc.setFont('helvetica', 'bold');
     doc.text('Duration:', col1X, summaryY + 7);
@@ -125,16 +147,21 @@ const Profile = () => {
     doc.text(`${itinerary.duration || 'N/A'} days`, col1X + 25, summaryY + 7);
     
     // Right column
-    doc.setFont('helvetica', 'bold');
-    doc.text('Total Places:', col2X, summaryY);
-    doc.setFont('helvetica', 'normal');
-    doc.text(String(itinerary.summary?.totalPlaces || 0), col2X + 28, summaryY);
+    const totalPlaces = itinerary.summary?.totalPlaces;
+    if (totalPlaces) {
+      doc.setFont('helvetica', 'bold');
+      doc.text('Total Places:', col2X, summaryY);
+      doc.setFont('helvetica', 'normal');
+      doc.text(String(totalPlaces), col2X + 28, summaryY);
+    }
     
-    doc.setFont('helvetica', 'bold');
-    doc.text('Total Cost:', col2X, summaryY + 7);
-    doc.setFont('helvetica', 'normal');
-    const totalCost = itinerary.summary?.estimatedTotalCost || 0;
-    doc.text(`Rs. ${totalCost.toLocaleString('en-IN')}`, col2X + 28, summaryY + 7);
+    const totalCost = itinerary.estimatedCost || itinerary.summary?.estimatedTotalCost;
+    if (totalCost) {
+      doc.setFont('helvetica', 'bold');
+      doc.text('Total Cost:', col2X, summaryY + 7);
+      doc.setFont('helvetica', 'normal');
+      doc.text(`Rs. ${totalCost.toLocaleString('en-IN')}`, col2X + 28, summaryY + 7);
+    }
 
     yPos += 50;
 
@@ -146,25 +173,23 @@ const Profile = () => {
     yPos += 12;
 
     if (itinerary.itinerary && itinerary.itinerary.length > 0) {
+      // Full itinerary with places
       itinerary.itinerary.forEach((day, dayIndex) => {
-        // Check if we need a new page
         if (yPos > pageHeight - 70) {
           doc.addPage();
           yPos = margin + 10;
         }
 
-        // Day Header with background
-        doc.setFillColor(212, 175, 55); // Gold background
+        doc.setFillColor(212, 175, 55);
         doc.roundedRect(margin, yPos, pageWidth - 2 * margin, 10, 2, 2, 'F');
         
         doc.setFontSize(12);
         doc.setFont('helvetica', 'bold');
         doc.setTextColor(255, 255, 255);
-        const dayTitle = `Day ${day.day || dayIndex + 1} - ${day.region || 'Travel Day'}`;
+        const dayTitle = cleanText(`Day ${day.day || dayIndex + 1} - ${day.region || 'Travel Day'}`);
         doc.text(dayTitle, margin + 4, yPos + 7);
         yPos += 14;
 
-        // Places for this day
         if (day.places && day.places.length > 0) {
           doc.setFontSize(10);
 
@@ -174,16 +199,14 @@ const Profile = () => {
               yPos = margin + 10;
             }
 
-            // Place number and name
             doc.setFont('helvetica', 'bold');
             doc.setTextColor(0, 0, 0);
             doc.setFontSize(11);
-            const placeName = `${placeIndex + 1}. ${place.name || 'Unnamed Place'}`;
+            const placeName = cleanText(`${placeIndex + 1}. ${place.name || 'Unnamed Place'}`);
             const placeNameLines = doc.splitTextToSize(placeName, pageWidth - 2 * margin - 10);
             doc.text(placeNameLines, margin + 5, yPos);
             yPos += placeNameLines.length * 5 + 3;
 
-            // Place details in a structured way
             doc.setFont('helvetica', 'normal');
             doc.setTextColor(60, 60, 60);
             doc.setFontSize(9);
@@ -192,7 +215,7 @@ const Profile = () => {
               doc.setFont('helvetica', 'bold');
               doc.text('Location:', margin + 8, yPos);
               doc.setFont('helvetica', 'normal');
-              const locationText = doc.splitTextToSize(place.location, pageWidth - 2 * margin - 35);
+              const locationText = doc.splitTextToSize(cleanText(place.location), pageWidth - 2 * margin - 35);
               doc.text(locationText, margin + 28, yPos);
               yPos += locationText.length * 4 + 2;
             }
@@ -201,7 +224,7 @@ const Profile = () => {
               doc.setFont('helvetica', 'bold');
               doc.text('Duration:', margin + 8, yPos);
               doc.setFont('helvetica', 'normal');
-              doc.text(place.duration, margin + 28, yPos);
+              doc.text(cleanText(place.duration), margin + 28, yPos);
               yPos += 5;
             }
             
@@ -209,7 +232,7 @@ const Profile = () => {
               doc.setFont('helvetica', 'bold');
               doc.text('Entry Fee:', margin + 8, yPos);
               doc.setFont('helvetica', 'normal');
-              const feeText = doc.splitTextToSize(place.entry_fee, pageWidth - 2 * margin - 35);
+              const feeText = doc.splitTextToSize(cleanText(place.entry_fee), pageWidth - 2 * margin - 35);
               doc.text(feeText, margin + 28, yPos);
               yPos += feeText.length * 4 + 2;
             }
@@ -217,7 +240,6 @@ const Profile = () => {
             yPos += 4;
           });
 
-          // Day Cost in a box
           doc.setFillColor(255, 248, 240);
           doc.roundedRect(margin + 5, yPos, pageWidth - 2 * margin - 10, 8, 1, 1, 'F');
           doc.setFont('helvetica', 'bold');
@@ -227,7 +249,6 @@ const Profile = () => {
           doc.text(`Day ${day.day || dayIndex + 1} Cost: Rs. ${dayCost.toLocaleString('en-IN')} per person`, margin + 8, yPos + 5.5);
           yPos += 12;
         } else {
-          // No places - travel day
           doc.setFont('helvetica', 'italic');
           doc.setTextColor(120, 120, 120);
           doc.setFontSize(10);
@@ -236,6 +257,49 @@ const Profile = () => {
         }
 
         yPos += 3;
+      });
+    } else if (itinerary.description) {
+      // Chatbot-style itinerary with text description
+      doc.setFont('helvetica', 'normal');
+      doc.setTextColor(60, 60, 60);
+      doc.setFontSize(10);
+      
+      const cleanDesc = cleanText(itinerary.description)
+        .replace(/\*\*/g, '')
+        .replace(/Would you like to accept.*$/gm, '')
+        .trim();
+      
+      const lines = cleanDesc.split('\n');
+      lines.forEach(line => {
+        const trimmedLine = line.trim();
+        if (!trimmedLine) {
+          yPos += 4;
+          return;
+        }
+
+        if (yPos > pageHeight - 30) {
+          doc.addPage();
+          yPos = margin + 10;
+        }
+
+        if (trimmedLine.match(/^Day\s+\d+/)) {
+          doc.setFont('helvetica', 'bold');
+          doc.setFontSize(12);
+          doc.setTextColor(122, 28, 28);
+          yPos += 3;
+        } else if (trimmedLine.startsWith('-') || trimmedLine.startsWith('•')) {
+          doc.setFont('helvetica', 'normal');
+          doc.setFontSize(10);
+          doc.setTextColor(60, 60, 60);
+        } else {
+          doc.setFont('helvetica', 'normal');
+          doc.setFontSize(10);
+          doc.setTextColor(0, 0, 0);
+        }
+
+        const textLines = doc.splitTextToSize(trimmedLine, pageWidth - 2 * margin);
+        doc.text(textLines, margin, yPos);
+        yPos += textLines.length * 5 + 2;
       });
     } else {
       doc.setFont('helvetica', 'italic');
@@ -269,11 +333,10 @@ const Profile = () => {
       doc.text(pageText, pageWidth - margin - pageTextWidth, footerY);
     }
 
-    // Save the PDF with proper filename
-    const duration = itinerary.duration || 'Custom';
-    const packageName = itinerary.summary?.packageName || 'Itinerary';
-    const safeName = packageName.replace(/[^a-z0-9]/gi, '_').substring(0, 30);
-    const fileName = `Yaalir_${safeName}_${duration}Days.pdf`;
+    // Save the PDF
+    const packageName = itinerary.title || itinerary.summary?.packageName || 'Itinerary';
+    const safeName = cleanText(packageName).replace(/[^a-z0-9]/gi, '_').substring(0, 30);
+    const fileName = `Yaalir_${safeName}_${itinerary.duration || 'Custom'}Days.pdf`;
     doc.save(fileName);
   };
 
@@ -404,22 +467,26 @@ const Profile = () => {
 
               {!userData.itineraries || userData.itineraries.length === 0 ? (
                 <p className="text-gray-600 dark:text-gray-400 text-center py-8">
-                  No saved itineraries yet. Create your first travel plan!
+                  No saved itineraries yet. Use the chatbot assistant to create your first travel plan!
                 </p>
               ) : (
                 <div className="space-y-4">
                   {userData.itineraries.map((itinerary, index) => (
                     <div
-                      key={index}
+                      key={itinerary.id || index}
                       className="border border-gray-200 dark:border-gray-700 rounded-lg p-6 hover:shadow-lg transition-shadow"
                     >
                       <div className="flex justify-between items-start mb-4">
-                        <div>
+                        <div className="flex-1">
                           <h4 className="font-bold text-lg text-tn-maroon-700 dark:text-tn-gold-400 mb-2">
-                            {itinerary.summary?.packageName || `${itinerary.duration} Day Trip`}
+                            {itinerary.title || itinerary.summary?.packageName || `${itinerary.duration} Day Trip`}
                           </h4>
                           <p className="text-sm text-gray-600 dark:text-gray-400">
-                            Created: {new Date(itinerary.createdAt).toLocaleDateString()}
+                            Created: {new Date(itinerary.createdAt).toLocaleDateString('en-IN', {
+                              day: 'numeric',
+                              month: 'long',
+                              year: 'numeric'
+                            })}
                           </p>
                         </div>
                         <button
@@ -432,36 +499,57 @@ const Profile = () => {
                         </button>
                       </div>
 
-                      <div className="grid grid-cols-2 gap-4 mb-4">
-                        <div>
-                          <p className="text-sm text-gray-600 dark:text-gray-400">Travelers</p>
-                          <p className="font-bold text-tn-maroon-700 dark:text-tn-gold-400">
-                            {itinerary.travelers}
-                          </p>
-                        </div>
+                      <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-4">
+                        {itinerary.travelers && (
+                          <div>
+                            <p className="text-sm text-gray-600 dark:text-gray-400">Travelers</p>
+                            <p className="font-bold text-tn-maroon-700 dark:text-tn-gold-400">
+                              {itinerary.travelers}
+                            </p>
+                          </div>
+                        )}
                         <div>
                           <p className="text-sm text-gray-600 dark:text-gray-400">Duration</p>
                           <p className="font-bold text-tn-maroon-700 dark:text-tn-gold-400">
                             {itinerary.duration} days
                           </p>
                         </div>
+                        {(itinerary.estimatedCost || itinerary.summary?.estimatedTotalCost) && (
+                          <div>
+                            <p className="text-sm text-gray-600 dark:text-gray-400">Est. Cost</p>
+                            <p className="font-bold text-tn-maroon-700 dark:text-tn-gold-400">
+                              ₹{(itinerary.estimatedCost || itinerary.summary?.estimatedTotalCost)?.toLocaleString()}
+                            </p>
+                          </div>
+                        )}
                       </div>
 
-                      {itinerary.summary && (
-                        <div className="bg-tn-ivory-50 dark:bg-gray-700 p-4 rounded-lg">
-                          <p className="text-sm text-gray-700 dark:text-gray-300">
-                            <span className="font-semibold">Places:</span> {itinerary.summary.totalPlaces}
+                      <div className="bg-tn-ivory-50 dark:bg-gray-700 p-4 rounded-lg">
+                        {itinerary.summary && (
+                          <>
+                            {itinerary.summary.totalPlaces > 0 && (
+                              <p className="text-sm text-gray-700 dark:text-gray-300 mb-2">
+                                <span className="font-semibold">Places to Visit:</span> {itinerary.summary.totalPlaces}
+                              </p>
+                            )}
+                            {itinerary.summary.description && (
+                              <p className="text-sm text-gray-600 dark:text-gray-400 italic">
+                                {itinerary.summary.description}
+                              </p>
+                            )}
+                          </>
+                        )}
+                        {itinerary.description && (
+                          <p className="text-sm text-gray-600 dark:text-gray-400 mt-2 whitespace-pre-line line-clamp-3">
+                            {itinerary.description}
                           </p>
-                          <p className="text-sm text-gray-700 dark:text-gray-300">
-                            <span className="font-semibold">Estimated Cost:</span> ₹{itinerary.summary.estimatedTotalCost?.toLocaleString()}
+                        )}
+                        {itinerary.itinerary && itinerary.itinerary.length > 0 && (
+                          <p className="text-xs text-gray-500 dark:text-gray-500 mt-2">
+                            {itinerary.itinerary.length} days of detailed planning
                           </p>
-                          {itinerary.summary.description && (
-                            <p className="text-xs text-gray-600 dark:text-gray-400 mt-2 italic">
-                              {itinerary.summary.description}
-                            </p>
-                          )}
-                        </div>
-                      )}
+                        )}
+                      </div>
                     </div>
                   ))}
                 </div>

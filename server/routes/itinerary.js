@@ -246,7 +246,7 @@ router.post('/generate', authenticateToken, async (req, res) => {
 // Save itinerary
 router.post('/save', authenticateToken, async (req, res) => {
   try {
-    const { itineraryData } = req.body;
+    const { title, duration, estimatedCost, description, details, itineraryData } = req.body;
     const userId = req.user.userId;
 
     const users = await readJSON('users.json');
@@ -256,10 +256,16 @@ router.post('/save', authenticateToken, async (req, res) => {
       return res.status(404).json({ error: 'User not found' });
     }
 
+    // Support both chatbot format and original format
     const savedItinerary = {
       id: Date.now(),
       createdAt: new Date().toISOString(),
-      ...itineraryData
+      title: title || itineraryData?.summary?.packageName || 'Custom Itinerary',
+      duration: duration || itineraryData?.summary?.duration,
+      estimatedCost: estimatedCost || itineraryData?.summary?.estimatedTotalCost,
+      description: description || itineraryData?.summary?.description,
+      details: details || {},
+      itinerary: itineraryData?.itinerary || []
     };
 
     users[userIndex].itineraries.push(savedItinerary);

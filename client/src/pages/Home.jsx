@@ -23,12 +23,18 @@ const Home = () => {
         heritageAPI.getCrafts(),
       ]);
       
-      // Get first 6 heritage sites for home page
-      setDestinations(heritageRes.data.slice(0, 6));
-      // Get first 6 crafts for home page
-      setCrafts(craftsRes.data.slice(0, 6));
+      // Get first 6 heritage sites for home page - ensure it's an array
+      const heritageData = Array.isArray(heritageRes.data) ? heritageRes.data : [];
+      setDestinations(heritageData.slice(0, 6));
+      
+      // Get first 6 crafts for home page - ensure it's an array
+      const craftsData = Array.isArray(craftsRes.data) ? craftsRes.data : [];
+      setCrafts(craftsData.slice(0, 6));
     } catch (error) {
       console.error('Error loading data:', error);
+      // Set empty arrays on error
+      setDestinations([]);
+      setCrafts([]);
     } finally {
       setLoading(false);
     }
